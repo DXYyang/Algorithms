@@ -107,6 +107,136 @@ Java中有三个访问权限修饰符：private、protected以及public，如果
 ### 重载(Overload)
 存在于同一个类中，指一个方法与已经存在的方法名称上相同，但是参数类型、个数、顺序至少有一个不同。 **如果只是返回值不同，其他都相同不算重载**
 
+## ==与equals()
+- 对于基本类型，==判断两个值是否相等，基本类型没有equals()方法
+- 对于引用类型，==判断两个变量是否引用同一个对象，而equals()判断引用的对象是否等价。
+- 实现了equals()方法的内容，看对象中的内容是否等价，没有实现则使用==判断
+#
+	Integer x = new Integer(1);
+	Integer y = new Integer(1);
+	System.out.println(x.equals(y)); //true
+	System.out.println(x == y);//false
+
+## hashCode()
+hashCode()返回散列值，而equals()是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价。
+在覆盖equals()方法时应总是覆盖hashCode()方法，保证等价的两个对象散列值也相等。
+## 浅拷贝与深拷贝
+- 浅拷贝与深拷贝只是针对数组与对象，基本数据类型没有
+- 浅拷贝只拷贝一层，深拷贝拷贝多层
+## 三、关键字
+## final
+### 1、数据
+- 对于基本类型,final使数值不变;
+- 对于引用类型，final使引用不变，也就不能引用其他对象，但是被引用的对象本身是可以修改的
+#
+	final int x=1;
+	//x=2; 不能被修改
+	final A y = new A();
+	y.a = 1
+### 2、方法
+- 声明方法不能被子类重写。
+- private方法隐式地被指定为final，如果在子类中定义的方法和基类中的一个private方法签名相同，此时子类的方法不是重写基类方法，而是在子类中定义了一个新的方法。
+### 3、类
+- 声明类不允许被继承
+### static
+- 静态变量：类所有的实例都共享静态变量，可以直接使用类名来访问它
+#
+	public class A{
+		private int x;
+		private static int y;
+}
+- 静态方法：静态方法在类加载的时候就存在了，它不依赖于任何实例，所以静态方法必须有实现，也就是说它不能是抽象方法（只能访问所属类的静态字段和静态方法，方法中不能有this和super关键字）
+#
+	public class A{
+		private static int x;
+		private int y;
+		public static void func1(){
+			int a = x;
+			//int b = y;
+			//int b = this.y;
+		}
+	}
+- 静态语句块：在类的初始化时运行一次
+#
+	public class A{
+	 static{
+		}	
+	}
+- 静态内部类：非静态内部类依赖于外部类的实例，而静态内部类不需要引用外部实例。静态内部类不能访问外部类的非静态的变量和方法。
+#
+	public class OuterClass{
+		class InnerClass{
+		}
+		static class StaticInnerClass{
+		}
+		public static void main(String[] args){
+			OutClass outclass = new OuterClass();
+			InnerClass innerClass = outClass.new InnerClass();
+			StaticInnerClass staticInnerClass = new StaticInnerClass();
+		}
+	}	
+- 静态导包：导入类的静态变量和方法，并且引用时不用再指明ClassName
+	import static com.xxx.ClassName.*
+### 初始化顺序
+静态变量和静态语句块优于实例变量和普通语句块，静态变量和静态语句块的初始化顺序取决于它们在代码中的顺序
+
+	public static String staticField = "静态变量";
+	static{
+		System.out.println("静态语句块");
+	}
+	public String field = "实例变量";
+	{
+		System.out.println("普通语句块");
+	}
+	public InitialOrderTest(){
+		System.out.println("构造函数");
+	}
+存在继承的情况下，初始化顺序为：
+
+-	父类（静态变量、静态语句块）
+-	子类（静态变量、静态语句块）
+-	父类（实例变量、普通语句块）
+-	父类（构造函数）
+-	子类（实例变量、普通语句块）
+-	子类（构造函数）	
+## 4、反射
+每个类都有一个Class对象，包含了与类有关的信息。当编译一个新类时，会产生一个同名的.class文件，该文件内容保存着Class对象。类加载相当于Class对象的加载。反射可以提供运行时的类信息，并且这个类可以在运行时才加载进来
+
+Class和java.lang.reflect一起对反射提供了支持，java.lang.reflect类库主要包含了3个类：
+
+- Field:可以使用get()和set()方法读取和修改Field对象关联的字段。
+- Method:可以使用invoke()方法调用与Method对象关联的方法。
+- Constructor:可以使用Constructor的newInstance()创建新的对象。
+
+### 反射的优点
+- 可扩展性
+### 反射的缺点
+- 性能开销
+- 安全限制
+- 内部暴露
+
+## 5、异常
+Throwable 可以用来表示任何可以作为异常抛出的类，分为两种：Error 和 Exception。其中Error用来表示JVM无法处理的错误，Exception分为两种：
+
+- 受检异常:需要用try...catch... 语句捕获并进行处理，并且可以从异常中恢复;
+- 非受检异常:是程序运行时错误，例如除0会引发Arithmetic Exception，此时程序崩溃并且无法恢复。
+- RuntimeException 是不受检查异常的基类
+
+![](./picture/error.png)
+
+## Java与C++的区别
+- Java是纯粹的面向对象语言，C++即支持面向对象又支持面向过程
+- Java通过虚拟机实现跨平台性，但是C++依赖于特定的平台
+- Java没有指针，C++有指针
+- Java支持自动垃圾回收，C++需要手动回收
+- Java不支持多重继承，C++支持
+
+## JRK,JDK,JVM
+- JVM:Java虚拟机
+- JRE:Java运行时的环境。jvm的标准实现和Java的一些基本类库
+- JDK:Java开发工具包,集成了jre和一些好用的小工具
+- 三者关系 JDK>JRE>JVM
+
 
 
 	
