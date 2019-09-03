@@ -5,7 +5,7 @@
 
 ### 主要方法
 
-###Collections接口常见的方法
+### Collections接口常见的方法
 -add(element),add(index,element),addAll(element),addAll(index,element) remove(object|index) size() clear() contains() isEmpty()  iterator()
 
 ### 1、List
@@ -56,7 +56,7 @@
 		String value = map.get(key);
 	}
 	
-	Iterator<Entry<String,String> iter = map.entrySet().iterator();
+	Iterator<Entry<String,String>> iter = map.entrySet().iterator();
 	Map.Entry<String,String> entry;
 	while(iter.hasNext()){
 		entry = iter.next();
