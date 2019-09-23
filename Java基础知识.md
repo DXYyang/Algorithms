@@ -29,8 +29,12 @@ valueOf()方法的实现比较简单，就是先判断值是否在缓存池中�
 ## String，StringBuffer and StringBuilder
 
 ### 1、可变性
-- String不可变
-- StringBuffer 和 StringBuilder可变
+- String不可变 是字符串常量，每次都会创建一个新的对象
+- StringBuffer 和 StringBuilder可变 字符串变量，每次都是操作一个对象
+- 执行速度:StringBuilder >StringBuffer>String
+- String:适用于少量的字符串操作
+- StringBuilder:适用于单线程下在字符缓冲区进行大量操作的情况
+- StringBuffer:适用于多线程下在字符缓冲区进行大量操作的情况
 
 ### 2、线程安全
 
