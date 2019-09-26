@@ -72,7 +72,32 @@
 ### 实现接口和继承Thread
 实现接口更优：因为Java不支持多重继承，继承Thread类就无法继承其他类，继承Thread类开销过大。
 ## 三、基础线程机制
+### 使用线程池的好处:
+- 减少在创建和销毁线程上所花的时间以及系统资源的开销
+- 如不使用线程池，有可能造成系统创建大量线程而导致消耗完系统内存
+### 线程池的参数及其代表意义
+	ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, 
+	long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue,
+	ThreadFactory threadFactory, RejectedExecutionHandler handler)
+
+**corePoolSize:** 核心池的大小。当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列中
+
+**maximumPoolSize:** 线程池的最大线程数
+
+**keepAliveTime:** 表示线程没有任务执行时最多保持多久时间会终止
+
+**unit:** 参数keepAliveTime的时间单位
+
+**workQueue:** 一个阻塞队列，用来存储等待执行的任务。线程池的排队策略与BlockingQueue有关
+
+**threadFactory:** 线程工厂，主要用来创建线程
+
+**handler:**表示当拒绝处理任务时的策略
+
 ### Executor
+
+	ExecutorService	 executorService = Executors.newCachedThreadPool();//Executors的相关静态方法返回一个 ExecutorService接口的实现类ThreadPoolExecutor
+	
 Executor管理多个异步任务的执行，无需程序员显示地管理线程的生命周期。
 三种Executor:
 - CachedThreadPool：一个任务创建一个线程
