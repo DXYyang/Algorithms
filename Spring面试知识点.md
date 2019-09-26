@@ -57,6 +57,11 @@ Spring AOP 属于运行时增强，而 AspectJ 是编译时增强。 Spring AOP 
 - @Repository : 对应持久层即 Dao 层，主要用于数据库相关操作。
 - @Service : 对应服务层，主要涉及一些复杂的逻辑，需要用到 Dao层。
 - @Controller : 对应 Spring MVC 控制层，主要用户接受用户请求并调用 Service 层返回数据给前端页面。
+
+## @Autowired和@Resource的区别
+- @Autowired是Spring的注解，@Resource是JDK的注解
+- @Autowired只能根据类型自动匹配，查找并注入bean，如果要通过bean的标识符id来查找，需要配合@Qualifier注解；@Resource默认是按照ByName的方式(找id)，没有指定name属性，默认取字段名称，也可以定义通过ByType的查找方式 @Resource(name=xxx,type=xxx);@Autowired(required=false)运行为null值
+- 都可以注解在字段或者setter方法上
 ## Spring 事务中的隔离级别有哪几种?
 **TransactionDefinition** 接口中定义了五个表示隔离级别的常量：
 
