@@ -81,18 +81,18 @@
 	ThreadFactory threadFactory, RejectedExecutionHandler handler)
 
 **corePoolSize:** 核心池的大小。当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列中
-
+ 
 **maximumPoolSize:** 线程池的最大线程数
 
 **keepAliveTime:** 表示线程没有任务执行时最多保持多久时间会终止
 
 **unit:** 参数keepAliveTime的时间单位
-
+ 
 **workQueue:** 一个阻塞队列，用来存储等待执行的任务。线程池的排队策略与BlockingQueue有关
 
-** threadFactory:** 线程工厂，主要用来创建线程
+**threadFactory:** 线程工厂，主要用来创建线程
 
-** handler: **表示当拒绝处理任务时的策略
+**handler:** 表示当拒绝处理任务时的策略
 
 ### Executor
 
