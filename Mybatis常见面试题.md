@@ -123,4 +123,41 @@ Mapper接口是没有实现类的，当调用接口方法时，接口全限名+�
 
 Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法名 的保存和寻找策略。Mapper 接口的工作原理是JDK动态代理，Mybatis运行时会使用JDK动态代理为Mapper接口生成代理对象proxy，代理对象会拦截接口方法，转而执行MapperStatement所代表的sql，然后将sql执行结果返回。
 
-	
+## 12.Mybatis是如何进行分页的？分页插件的原理是什么？
+- Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的内存分页，而非物理分页。可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。
+- 分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重现sql，添加对应的物理分页语句和物理分页参数
+## 13.Mybatis是如何将sql执行结果封装为目标对象并返回的?都有哪些映射形式?
+- 第一种是使用<resultMap>标签，逐一定义数据库列名和对象属性名之间的映射关系
+- 第二种是使用sql列的别名功能，将列的别名书写为对象属性名
+## 14.如何执行批量插入？
+- 首先创建一个简单的insert语句
+- 然后在就java代码中for循环插入
+## 15.如何获得自动生成的主键值?
+- insert方法总是返回一个int值，代表的是插入的行数
+- 如果采用自增长策略，自动生成的健值在insert方法执行完成后可以被设置到传入的参数对象中
+## 16.在mapper中如何传递多个参数?
+	第一种:
+	public User selectUser(String name, String area);
+	对应的selectxml是#{0},#{1}
+	第二种:
+	public User selectUser(@param("username") string username, @param("pwd") string hashpassword)
+	#{username} #{pwd}
+	第三种：
+	多个参数封装成map
+	Map<String,String> paramsMap = new HashMap<String, String>();
+	paramsMap.put("roleName","me")
+	paramsMap.put("note","te")
+	public List<Role> findRoleByMap(Map<String,String> params);
+	#{rolename} #{note}
+## 17.简述Mybatis的插件运行原理，以及如何编写一个插件
+Mybatis仅可以编写针对ParameterHandler、ResultSetHandler、StatementHandler、Executor这4种接口的插件，Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法。
+## Mybatis和Spring的配置
+1、配置SqlSessionFactory：利用MyBatis-Spring项目提供的SQLSessionFactoryBean类来配置数据源和MyBatis的配置文件路径
+
+2、配置SqlSessionTemplate，它是一个模板类，通过调用SQLSession来完成工作，是通过SqlSessionFactory来构建。
+
+3、相应Dao文件的配置方式：
+
+- 方法一：实现一个Dao接口的类，该类中利用SQLSessionTemplate对象来调用接口方法，最后显示配置一个bean
+- 方法二：利用MapperFactoryBean直接配置Dao的bean，不需要再去实现接口对应的类
+- 方法三：MapperScannerConfigurer自动扫描dao类文件，无需显示配置bean。对应的dao类加上@Repository注解

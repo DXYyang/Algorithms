@@ -51,6 +51,7 @@ Spring AOP 属于运行时增强，而 AspectJ 是编译时增强。 Spring AOP 
 ## @Component 和 @Bean 的区别是什么？
 作用对象不同: @Component 注解作用于类，而@Bean注解作用于方法。
 ## 将一个类声明为Spring的 bean 的注解有哪些?
+@Autowired自动装配可以是一个显示bean也可以是由注解的类或方法bean
 一般使用 @Autowired 注解自动装配 bean（@Qualifier 匹配相关bean名称，默认名称是类名首字母小写，如直接@Autowired装配，直接去找被注释的类或接口），要想把类标识成可用于 @Autowired 注解自动装配的 bean 的类,采用以下注解可实现：
 
 - @Component ：通用的注解，可标注任意类为 Spring 组件。如果一个Bean不知道属于哪个层，可以使用@Component 注解标注。
@@ -100,3 +101,15 @@ Spring IOC的初始化过程:通过parseBeanDefinitionElement将XML的元素解�
 </br>[1、简单的IOC和AOP实现](http://www.tianxiaobo.com/2018/01/18/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0%E7%9A%84-Spring-IOC-%E5%92%8C-AOP-%E4%B8%8A%E7%AF%87/)
 
 [2、简单的IOC和AOP实现](http://www.tianxiaobo.com/2018/01/18/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0%E7%9A%84-Spring-IOC-%E5%92%8C-AOP-%E4%B8%8B%E7%AF%87/)
+
+## BeanFactory和FactoryBean的区别
+- BeanFactory是一个工厂类（接口），它负责生产和管理bean的一个工厂。在Spring中，BeanFactory是IOC容器的核心接口，它的职责包括：实例化、定位、配置应用程序中的对象及建立这些对象间的依赖。BeanFactory只是个接口，并不是IOC容器的具体实现，但是Spring容器给出了很多种实现，如DefaultListableBeanFactory、XmlBeanFactory、ApplicationContext等。
+- FactoryBean是一个生产或者修饰对象生成的工厂Bean接口，通常情况下bean无需自己实现工厂模式，Spring容器担任工厂角色。但在少数情况下，容器中的bean本身就是工厂，作用是产生其他bean实例。其根据Bean的ID从BeanFactory中获取的实际上是FactoryBean的getObject()返回的对象，而不是FactoryBean本身，如果需要获取FactoryBean对象，要在ID前面加一个&符号来获取。
+
+[FactoryBean与BeanFactory](https://www.jianshu.com/p/05c909c9beb0)
+[FactoryBean与BeanFactory 2](https://blog.csdn.net/qq_37751454/article/details/86489715)
+
+## JPA(Java Persistence API)
+- Java持久层API，用于对象持久化的API，使得应用程序以统一的方式访问持久层，JPA是一种ORM的规范。
+
+[JPA深入学习](https://blog.csdn.net/xiang__liu/article/details/80805967)
