@@ -90,9 +90,9 @@
 
 **workQueue:** 一个阻塞队列，用来存储等待执行的任务。线程池的排队策略与BlockingQueue有关
 
-**threadFactory:** 线程工厂，主要用来创建线程
+** threadFactory:** 线程工厂，主要用来创建线程
 
-**handler:**表示当拒绝处理任务时的策略
+** handler: **表示当拒绝处理任务时的策略
 
 ### Executor
 
