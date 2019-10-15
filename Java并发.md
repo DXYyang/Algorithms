@@ -128,6 +128,7 @@ ReentrantLock是java.util.concurrent(J.U.C)包中的锁
 在线程中调用另一个线程的join()方法，会将当前线程挂起，去执行另一个线程。
 ### wait() notify() notifyAll()
 调用wait()使得线程等待某个条件满足。用notify()或notifyAll()来唤醒挂起的线程。它们都是属于Object的一部分而不属于Thread。只能在同步方法或者同步控制块中使用。
+notify()是通知一个wait线程，而notifyAll()通知的所有的wait线程，产生线程竞争获取锁
 
 使用wait()挂起期间，线程会释放锁。因为不释放的话，其他线程就无法进入其他同步方法去notify唤醒线程，从而造成死锁。
 
@@ -151,3 +152,8 @@ FutureTask实现了RunnableFuture接口，该接口继承Runnable和Future接口
 - LinkedBlockingQueue、ArrayBlockingQueue、PriorityBlockingQueue take&put
 ### Forkjoin
 主要用于并行计算中，把大的计算任务拆分成多个小任务并行计算.ForkJoin使用ForkJoinPool来启动
+
+### 七、ThreadLocal
+ThreadLocal的实例代表了一个线程局部的变量，每条线程都只能看到自己的值，并不会意识到其他的线程中也存在该变量。它采用空间来换取时间的方式，解决多线程中相同变量的访问冲突问题。
+
+[ThreadLocal详解](https://blog.csdn.net/Oeljeklaus/article/details/80545749)
