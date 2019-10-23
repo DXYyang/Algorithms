@@ -122,9 +122,11 @@ Java中有三个访问权限修饰符：private、protected以及public，如果
 	System.out.println(x == y);//false
 
 ## hashCode()
+Object的hashCode方法是本地方法，也就是使用c或c++实现的，该方法直接返回对象的内存地址
+
 hashCode()返回散列值，而equals()是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价。
 
-在覆盖equals()方法时应总是覆盖hashCode()方法(默认是内存地址)，保证等价的两个对象散列值也相等。
+在覆盖equals()方法时应总是覆盖hashCode()方法，保证等价的两个对象散列值也相等。
 
 先比较hashcode()，若相等再比较equals()
 

@@ -94,6 +94,10 @@
 
 **handler:** 表示当拒绝处理任务时的策略
 
+### 线程池运行流程，参数和策略
+线程池主要就是指定线程池核心线程数大小、最大线程数、存储的队列、拒绝策略、空闲线程存活时长。当需要任务大于核心线程数时候，就开始把任务往存储任务的队列里，当存储队列满的话，就开始增加线程池创建的线程数量，如果当线程数量也达到最大，就开始拒绝策略，比如说记录日志、直接丢弃、或者丢弃最老的任务。
+
+
 ### Executor
 
 	ExecutorService	 executorService = Executors.newCachedThreadPool();//Executors的相关静态方法返回一个 ExecutorService接口的实现类ThreadPoolExecutor
@@ -139,11 +143,22 @@ notify()是通知一个wait线程，而notifyAll()通知的所有的wait线程�
 ### await() signal() singal()
 用Condition类结合ReentrantLock来实现等待与通知
 ## 六、J.U.C
+### AQS
+AQS其是就是一个可以给我们实现锁的框架。
+内部实现的关键是：先见先出的队列、state状态
+定义了内部类ConditionObject
+拥有两种线程模式独占模式和共享模式
+在LOCK包中的相关锁（常用的有ReentrantLock、ReadWriteLock）都是基于AQS来构建。
+
 ### CountDownLatch
 维护了一个计数器cnt，每次调用了countDown()方法会让计数器的值减1，减到0
 的时候，那些因为调用了await()方法而在等待的线程就会被唤醒。
 ### CyclicBarrier
 与CountDownLatch类似，都是用计数器来维护等待的线程何时被唤醒，唯一的区别在于CyclicBarrier的计数器可以通过调用reset()方法循环使用。
+### CountDownLatch和CyclicBarrier的区别
+CountDownLatch一般用于某个线程A等待若干个其他线程执行完任务之后，它才执行。
+CyclicBarrier一般用于一组线程互相等待至某个状态，然后这一组线程再同时执行。
+另外，CountDownLatch是不能够重用的，CyclicBarrier是可以重用的。
 ### Semaphore
 控制对互斥资源的访问线程数
 ### FutureTask
